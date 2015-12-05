@@ -28,3 +28,5 @@ a8.
 # 312 - 
 
 bomb lab. diffuse the assembly bomb.
+
+final project. instruction set architecture in logisim.
