@@ -1,0 +1,8 @@
+compile: 
+    javac *.java
+
+run:
+    java Main1
+    java Main2
+    java Main3
+    java Main4 MyClass
