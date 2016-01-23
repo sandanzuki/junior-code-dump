@@ -1,125 +1,112 @@
 import java.util.*;
 import java.lang.*;
+import java.util.regex.*;
 import java.util.ArrayList;
 
 public class Main{
     public static void main(String[] args){
         Database db = new Database();
-        if(args.length == 5){
-            if(args[0].equals("AddAchievement")){
-                try{
-                    int gameID = Integer.parseInt(args[1]);
-                    int achievementID = Integer.parseInt(args[2]);
-                    String achievementName = args[3];
-                    int achievementPoints = Integer.parseInt(args[4]);
-                    db.addAchievement(gameID, achievementID, achievementName, achievementPoints);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format AddAchievement <int> <int> <string> <int>");
-                }
-            }else{
-                System.out.println("invalid argument : " + args[0]);
-            }
-        }else if(args.length == 4){
-            if(args[0].equals("Plays")){
-                try{
-                    int playerID = Integer.parseInt(args[1]);
-                    int gameID = Integer.parseInt(args[2]);
-                    String playerIGN = args[3];
-                    db.plays(playerID, gameID, playerIGN);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format Plays <int> <int> <string>");
-                }
-            }else if(args[0].equals("Achieve")){
-                try{
-                    int playerID = Integer.parseInt(args[1]);
-                    int gameID = Integer.parseInt(args[2]);
-                    int achievementID = Integer.parseInt(args[3]);
-                    db.achieve(playerID, gameID, achievementID);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format Achieve <int> <int> <int>");
-                }
-            }else if(args[0].equals("ComparePlayers")){
-                try{
-                    int player1ID = Integer.parseInt(args[1]);
-                    int player2ID = Integer.parseInt(args[2]);
-                    int gameID = Integer.parseInt(args[3]);
-                    db.achieve(player1ID, player2ID, gameID);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format ComparePlayers <int> <int> <int>");
-                }
-            }else{
-                System.out.println("invalid argument : " + args[0]);
-            }
-        }else if(args.length == 3){
-            if(args[0].equals("AddPlayer")){
-                try{
-                    int playerID = Integer.parseInt(args[1]);
-                    String playerName = args[2];
-                    db.addPlayer(playerID, playerName);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format AddPlayer <int> <string>");
-                }
-            }else if(args[0].equals("AddGame")){
-                try{
-                    int gameID = Integer.parseInt(args[1]);
-                    String gameName = args[2];
-                    db.addGame(gameID, gameName);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format AddGame <int> <string>");
-                }
-            }else if(args[0].equals("AddFriends")){
-                try{
-                    int player1ID = Integer.parseInt(args[1]);
-                    int player2ID = Integer.parseInt(args[2]);
-                    db.addFriends(player1ID, player2ID);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format AddFriends <int> <int>");
-                }
-            }else if(args[0].equals("FriendsWhoPlay")){
-                try{
-                    int playerID = Integer.parseInt(args[1]);
-                    int gameID = Integer.parseInt(args[2]);
-                    db.friendsWhoPlay(playerID, gameID);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format FriendsWhoPlay <int> <int>");
-                }
-            }else if(args[0].equals("SummarizeAchievement")){
-                try{
-                    int gameID = Integer.parseInt(args[1]);
-                    int achievementID = Integer.parseInt(args[2]);
-                    db.summarizeAchievement(gameID, achievementID);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format SummarizeAchievement <int> <int>");
-                }
-            }else{
-                System.out.println("invalid argument : " + args[0]);
-            }
-        }else if(args.length == 2){
-            if(args[0].equals("SummarizePlayer")){
-                try{
-                    int playerID = Integer.parseInt(args[1]);
-                    db.summarizePlayer(playerID);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format SummarizePlayer <int>");
-                }
-            }else if(args[0].equals("SummarizeGame")){
-                try{
-                    int gameID = Integer.parseInt(args[1]);
-                    db.summarizeGame(gameID);
-                }catch(NumberFormatException e){
-                    System.out.println("please use the format SummarizeGame <int>");
-                }
-            }else{
-                System.out.println("invalid argument : " + args[0]);
-            }
-        }else if(args.length == 1){
-            if(args[0].equals("AchievementRanking")){
-                db.achievementRank();
-            }else{
-                System.out.println("invalid argument : " + args[0]);
-            }
-        }else{
-            System.out.println("invalid number of arguments");
+        Scanner cin = new Scanner(System.in);
+        while(cin.hasNextLine()){
+            String input = cin.nextLine();
+            if(input.equals("quit") || input.equals("q")) break;
+            matching(input,db);
+        }
+    }
+    
+    private static final ArrayList<Pattern> rxs = new ArrayList<Pattern>(
+        Arrays.asList(Pattern.compile("\\bAddPlayer\\b( +)(\\d+)( +)\"([^\"]*)\""),
+                      Pattern.compile("\\bAddGame\\b( +)(\\d+)( +)\"([^\"]*)\""),
+                      Pattern.compile("\\bAddAchievement\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]*)\"( +)(\\d+)"),
+                      Pattern.compile("\\bPlays\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]*)\""),
+                      Pattern.compile("\\bAddFriends\\b( +)(\\d+)( +)(\\d+)"),
+                      Pattern.compile("\\bAchieve\\b( +)(\\d+)( +)(\\d+)( +)(\\d+)"),
+                      Pattern.compile("\\bFriendsWhoPlay\\b( +)(\\d+)( +)(\\d+)"),
+                      Pattern.compile("\\bComparePlayers\\b( +)(\\d+)( +)(\\d+)( +)(\\d+)"),
+                      Pattern.compile("\\bSummarizePlayer\\b( +)(\\d+)"),
+                      Pattern.compile("\\bSummarizeGame\\b( +)(\\d+)"),
+                      Pattern.compile("\\bSummarizeAchievement\\b( +)(\\d+)( +)(\\d+)"),
+                      Pattern.compile("\\bAchievementRanking\\b")
+        )
+    );
+        
+    public static void matching(String s, Database db){
+        int casenum = -1;
+        for(int i = 0; i < rxs.size(); i++){
+            if(rxs.get(i).matcher(s).matches()) casenum = i;
+        }
+        
+        String[] first = s.split("\"");
+        String[] second = first[0].split(" ");
+        int playerID, player1ID, player2ID, gameID, achievementID;
+        String playerName, gameName, achievementName;
+        
+        
+        switch(casenum){
+            case 0:     //add player
+                        playerID = Integer.parseInt(second[1]);
+                        playerName = first[1].trim();
+                        db.addPlayer(playerID, playerName);
+                        break;
+            case 1:     //add game
+                        gameID = Integer.parseInt(second[1]);
+                        gameName = first[1].trim();
+                        db.addGame(gameID, gameName);
+                        break;
+            case 2:     //add achievement
+                        gameID = Integer.parseInt(second[1]);
+                        achievementID = Integer.parseInt(second[2]);
+                        achievementName = first[1].trim();
+                        int achievementPoints = Integer.parseInt(first[2].trim());
+                        db.addAchievement(gameID, achievementID, achievementName, achievementPoints);
+                        break;
+            case 3:     //plays
+                        playerID = Integer.parseInt(second[1]);
+                        gameID = Integer.parseInt(second[2]);
+                        String playerIGN = first[1].trim();
+                        db.plays(playerID, gameID, playerIGN);
+                        break;
+            case 4:     //add friends
+                        player1ID = Integer.parseInt(second[1]);
+                        player2ID = Integer.parseInt(second[2]);
+                        db.addFriends(player1ID, player2ID);
+                        break;
+            case 5:     //achieve
+                        playerID = Integer.parseInt(second[1]);
+                        gameID = Integer.parseInt(second[2]);
+                        achievementID = Integer.parseInt(second[3]);
+                        db.achieve(playerID, gameID, achievementID);
+                        break;
+            case 6:     //friends who play
+                        playerID = Integer.parseInt(second[1]);
+                        gameID = Integer.parseInt(second[2]);
+                        db.friendsWhoPlay(playerID, gameID);
+                        break;
+            case 7:     //compare players
+                        player1ID = Integer.parseInt(second[1]);
+                        player2ID = Integer.parseInt(second[2]);
+                        gameID = Integer.parseInt(second[3]);
+                        db.achieve(player1ID, player2ID, gameID);
+                        break;
+            case 8:     //summarizeplayer
+                        playerID = Integer.parseInt(second[1]);
+                        db.summarizePlayer(playerID);
+                        break;
+            case 9:     //summarizegame
+                        gameID = Integer.parseInt(second[1]);
+                        db.summarizeGame(gameID);
+                        break;
+            case 10:    //summarizeachievement
+                        gameID = Integer.parseInt(second[1]);
+                        achievementID = Integer.parseInt(second[2]);
+                        db.summarizeAchievement(gameID, achievementID);
+                        break;
+            case 11:    //achievement ranking
+                        db.achievementRank();
+                        break;
+            default:    //invalid input
+                        System.out.println("invalid input");
+                        break;
         }
     }
 }

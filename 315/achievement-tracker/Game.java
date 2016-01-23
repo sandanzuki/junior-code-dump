@@ -20,8 +20,4 @@ public class Game{
     public void addachieve(){
         totalachieve++;
     }
-    
-    /*public String toString(){
-        return;
-    }*/
 }

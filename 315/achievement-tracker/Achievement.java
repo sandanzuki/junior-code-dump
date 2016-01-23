@@ -21,10 +21,5 @@ public class Achievement{
     
     public void achieved(){
         timesAchieved++;
-    }
-    
-    /*public String toString(){
-        return;
-    }*/
-    
+    }    
 }

@@ -23,8 +23,4 @@ public class Player{
     public void addPoints(int points){
         totalPoints += points;
     }
-    
-    /*public String toString(){
-        return;
-    }*/
 }
