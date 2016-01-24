@@ -14,11 +14,16 @@ public class Main{
         }
     }
     
-    private static final ArrayList<Pattern> rxs = new ArrayList<Pattern>(
-        Arrays.asList(Pattern.compile("\\bAddPlayer\\b( +)(\\d+)( +)\"([^\"]*)\""),
-                      Pattern.compile("\\bAddGame\\b( +)(\\d+)( +)\"([^\"]*)\""),
-                      Pattern.compile("\\bAddAchievement\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]*)\"( +)(\\d+)"),
-                      Pattern.compile("\\bPlays\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]*)\""),
+    // regex patterns to determine if input is valid
+    // words surrounded by \\b require exact matching
+    // ( +) requires one or more spaces
+    // (\\d+) requires one or more digits
+    // \"([^\"]+)\" requires one or more characters that does not contain a double quote, surrounded by double quotes
+    private static final ArrayList<Pattern> commandPatterns = new ArrayList<Pattern>(
+        Arrays.asList(Pattern.compile("\\bAddPlayer\\b( +)(\\d+)( +)\"([^\"]+)\""),
+                      Pattern.compile("\\bAddGame\\b( +)(\\d+)( +)\"([^\"]+)\""),
+                      Pattern.compile("\\bAddAchievement\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]+)\"( +)(\\d+)"),
+                      Pattern.compile("\\bPlays\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]+)\""),
                       Pattern.compile("\\bAddFriends\\b( +)(\\d+)( +)(\\d+)"),
                       Pattern.compile("\\bAchieve\\b( +)(\\d+)( +)(\\d+)( +)(\\d+)"),
                       Pattern.compile("\\bFriendsWhoPlay\\b( +)(\\d+)( +)(\\d+)"),
@@ -31,18 +36,17 @@ public class Main{
     );
         
     public static void matching(String s, Database db){
-        int casenum = -1;
-        for(int i = 0; i < rxs.size(); i++){
-            if(rxs.get(i).matcher(s).matches()) casenum = i;
+        int commandID = -1;
+        for(int i = 0; i < commandPatterns.size(); i++){
+            if(commandPatterns.get(i).matcher(s).matches()) commandID = i;
         }
         
-        String[] first = s.split("\"");
-        String[] second = first[0].split(" ");
+        String[] first = s.split("\""); //isolate arguments with double quotes
+        String[] second = first[0].split(" "); //isolate remaining arguments separated by spaces
         int playerID, player1ID, player2ID, gameID, achievementID;
         String playerName, gameName, achievementName;
         
-        
-        switch(casenum){
+        switch(commandID){
             case 0:     //add player
                         playerID = Integer.parseInt(second[1]);
                         playerName = first[1].trim();

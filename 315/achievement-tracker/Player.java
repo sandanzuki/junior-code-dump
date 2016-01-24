@@ -9,7 +9,7 @@ public class Player{
     public final ArrayList<Integer> friends; 
     public final HashMap<Integer,String> games;
     public final ArrayList<Integer> achievements;
-    private int totalPoints;
+    private int gamerScore;
     
     public Player(int playerID, String name){
         this.playerID = playerID;
@@ -17,10 +17,10 @@ public class Player{
         friends = new ArrayList<Integer>();
         games = new HashMap<Integer,String>();
         achievements = new ArrayList<Integer>();
-        totalPoints = 0;
+        gamerScore = 0;
     }
     
     public void addPoints(int points){
-        totalPoints += points;
+        gamerScore += points;
     }
 }
