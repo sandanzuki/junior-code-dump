@@ -25,18 +25,18 @@ public class Database{
     public void addAchievement(int gameID, int achievementID, String name, int points){
         if(games.containsKey(gameID)){
             achievements.put(achievementID, new Achievement(gameID, achievementID, name, points));
-            games.get(gameID).addAchieve();
+            games.get(gameID).achievements.add(achievementID);
         }else{
-            System.out.println("game does not exist");
+            //System.out.println("game does not exist");
         }
     }
     
     public void plays(int playerID, int gameID, String ign){
         if(players.containsKey(playerID) && games.containsKey(gameID)){
-            players.get(playerID).games.put(gameID, ign);
+            players.get(playerID).games.put(gameID, new Playing(gameID, ign));
             games.get(gameID).players.add(playerID);
         }else{
-            System.out.println("player or game does not exist");
+            //System.out.println("player or game does not exist");
         }
     }
     
@@ -51,10 +51,19 @@ public class Database{
         if(players.containsKey(playerID) && achievements.containsKey(achievementID)){
             Player p = players.get(playerID);
             Achievement a = achievements.get(achievementID);
-            p.achievements.add(achievementID);
-            p.addPoints(a.points);
-            a.players.add(playerID);
-            a.achieved();
+            if(p.games.containsKey(gameID) && !p.games.get(gameID).achievements.contains(achievementID)){
+                Playing playerInfo = p.games.get(gameID);
+                int pointsEarned = a.points;
+                playerInfo.achievements.add(achievementID);
+                playerInfo.addPoints(pointsEarned);
+                p.addPoints(pointsEarned);
+                a.players.add(playerID);
+                a.achieved();
+            }else{
+                //System.out.println("player does not play this game or already has this achievement");
+            }
+        }else{
+            //System.out.println("player or achievement does not exist");
         }
     }
     
@@ -74,9 +83,36 @@ public class Database{
     }
     
     public void summarizePlayer(int playerID){
-        //Print record of all of the player's friends, games, and gamer point totals.
+        Player p = players.get(playerID);
+        Map<Integer, Playing> playersGames = p.games;
+        Set<Integer> gameskeys = playersGames.keySet();
+        Integer[] gameIDs = gameskeys.toArray(new Integer[gameskeys.size()]);
         
+        System.out.println("Player: " + p.name);
+        System.out.println("Total Gamerscore: " + p.getGamerScore());
+        System.out.printf("%4s %-20s %-16s %-16s %-16s \n", " ", "Game", "Achievements", "Gamerscore", "IGN");
+        System.out.println("--------------------------------------------------------------------------------");
+        for(int i = 0; i < gameIDs.length; i++){
+            Game g = games.get(gameIDs[i]);
+            Playing playerInfo = p.games.get(gameIDs[i]);
+            int nPlayerAchieve = playerInfo.achievements.size();
+            int nTotalAchieve = g.achievements.size();
+            System.out.printf("%4s %-20s %-16s %-16s %-16s \n", (i+1 +"."), g.name, (nPlayerAchieve + "/" + nTotalAchieve), (playerInfo.getPoints() + " pts"), playerInfo.ign);
+        }
         
+        ArrayList<Player> friends = new ArrayList<Player>();
+        for(int friend : p.friends){
+            friends.add(players.get(friend));
+        }
+        Collections.sort(friends, new Player.PlayerComparator());
+        
+        System.out.printf("\n%4s %-16s %-16s \n", " ", "Friend", "Gamerscore");
+        System.out.println("--------------------------------------------------------------------------------");
+        int nFriends = friends.size();
+        for(int i = 0; i < nFriends; i++){
+            Player friend = friends.get(nFriends - i - 1);
+            System.out.printf("%4s %-16s %-16s \n", (i+1 +"."), friend.name, friend.getGamerScore());
+        }        
     }
     
     public void summarizeGame(int gameID){
