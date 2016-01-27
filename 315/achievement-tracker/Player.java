@@ -27,6 +27,11 @@ public class Player implements Comparable<Player>{
     }
     
     @Override
+    public String toString(){
+        return name;
+    }
+    
+    @Override
     public int compareTo(Player p){
         if(gamerScore == p.gamerScore) return 0;
         else if(gamerScore < p.gamerScore) return -1;

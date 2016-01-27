@@ -90,17 +90,17 @@ public class Main{
                         player1ID = Integer.parseInt(second[1]);
                         player2ID = Integer.parseInt(second[2]);
                         gameID = Integer.parseInt(second[3]);
-                        db.achieve(player1ID, player2ID, gameID);
+                        db.comparePlayers(player1ID, player2ID, gameID);
                         break;
-            case 8:     //summarizeplayer
+            case 8:     //summarize player
                         playerID = Integer.parseInt(second[1]);
                         db.summarizePlayer(playerID);
                         break;
-            case 9:     //summarizegame
+            case 9:     //summarize game
                         gameID = Integer.parseInt(second[1]);
                         db.summarizeGame(gameID);
                         break;
-            case 10:    //summarizeachievement
+            case 10:    //summarize achievement
                         gameID = Integer.parseInt(second[1]);
                         achievementID = Integer.parseInt(second[2]);
                         db.summarizeAchievement(gameID, achievementID);

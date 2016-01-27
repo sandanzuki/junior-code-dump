@@ -14,4 +14,9 @@ public class Game{
         players = new ArrayList<Integer>();
         achievements = new ArrayList<Integer>();
     }
+    
+    @Override
+    public String toString(){
+        return name;
+    }
 }
