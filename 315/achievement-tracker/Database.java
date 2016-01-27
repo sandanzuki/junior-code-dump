@@ -76,13 +76,23 @@ public class Database{
         return p;
     }
     
-    public void comparePlayers(int player1ID, int player2ID, int gameID){
-        Game g = games.get(gameID);
-        System.out.println("Game: " + g);
-        System.out.println("--------------------------------------------------------------------------------");
+    public void printSortedPlayers(Collection<? extends Integer> playerIDs){
+        ArrayList<Player> sortPlayers = new ArrayList<Player>();
+        for(int id : playerIDs){
+            sortPlayers.add(players.get(id));
+        }
+        Collections.sort(sortPlayers, new Player.PlayerComparator());
         
-        Player p = players.get(player1ID);
-        Playing gameInfo = p.games.get(gameID);
+        int nPlayers = sortPlayers.size();
+        for(int i = 0; i < nPlayers; i++){
+            Player p = sortPlayers.get(nPlayers - i - 1);
+            System.out.printf("%4s %-16s %-16s \n", (i+1 +"."), p, (p.getGamerScore() + " pts"));
+        }
+        System.out.println();        
+    }
+    
+    public void printComparisonData(Player p, Game g){
+        Playing gameInfo = p.games.get(g.gameID);
         ArrayList<Integer> achieved = gameInfo.achievements;
         System.out.println("Player: " + p);
         System.out.printf("%d of %d total achievements achieved, %d pts \n", achieved.size(), g.achievements.size(), gameInfo.getPoints());
@@ -90,15 +100,18 @@ public class Database{
             System.out.printf("%4s %s \n", "-", achievements.get(a));
         }
         System.out.println();
-        p = players.get(player2ID);
-        gameInfo = p.games.get(gameID);
-        achieved = gameInfo.achievements;
-        System.out.println("Player: " + p);
-        System.out.printf("%d of %d total achievements achieved, %d pts \n", achieved.size(), g.achievements.size(), gameInfo.getPoints());
-        for(int a : achieved){
-            System.out.printf("%4s %s \n", "-", achievements.get(a));
-        }
-        System.out.println();
+        
+    }
+    
+    public void comparePlayers(int player1ID, int player2ID, int gameID){
+        Game g = games.get(gameID);
+        Player p1 = players.get(player1ID);
+        Player p2 = players.get(player2ID);
+        System.out.printf("Comparison for %s and %s in %s \n", p1, p2, g);
+        System.out.println("--------------------------------------------------------------------------------");
+        
+        printComparisonData(p1,g);
+        printComparisonData(p2,g);
     }
     
     public void summarizePlayer(int playerID){
@@ -119,20 +132,9 @@ public class Database{
             System.out.printf("%4s %-20s %-16s %-16s %-16s \n", (i+1 +"."), g, (nPlayerAchieve + "/" + nTotalAchieve), (playerInfo.getPoints() + " pts"), playerInfo.ign);
         }
         
-        ArrayList<Player> friends = new ArrayList<Player>();
-        for(int friend : p.friends){
-            friends.add(players.get(friend));
-        }
-        Collections.sort(friends, new Player.PlayerComparator());
-        
         System.out.printf("\n%4s %-16s %-16s \n", " ", "Friend", "Gamerscore");
         System.out.println("--------------------------------------------------------------------------------");
-        int nFriends = friends.size();
-        for(int i = 0; i < nFriends; i++){
-            Player friend = friends.get(nFriends - i - 1);
-            System.out.printf("%4s %-16s %-16s \n", (i+1 +"."), friend, (friend.getGamerScore() + " pts"));
-        }
-        System.out.println();
+        printSortedPlayers(p.friends);
     }
     
     public void summarizeGame(int gameID){
@@ -156,7 +158,6 @@ public class Database{
     }
     
     public void summarizeAchievement(int gameID, int achievementID){
-        //Print a list of all players who have achieved an achievement, and the percentage of players who play that game who have the achievement.
         Game g = games.get(gameID);
         Achievement a = achievements.get(achievementID);
         System.out.println("Achievement: " + a);
@@ -175,24 +176,8 @@ public class Database{
     }
     
     public void achievementRank(){
-        //Print a summary ranking all players by their total number of gamer points.
-        Set<Integer> playersKeys = players.keySet();
-        ArrayList<Player> allPlayers = new ArrayList<Player>();
-        for(int key : playersKeys){
-            allPlayers.add(players.get(key));
-        }
-        
-        Collections.sort(allPlayers, new Player.PlayerComparator());
-        
-        //Integer[] playerIDs = playersKeys.toArray(new Integer[playersKeys.size()]);
-        
         System.out.println("Player Ranking (by GamerScore)");
         System.out.println("--------------------------------------------------------------------------------");
-        int nPlayers = players.size();
-        for(int i = 0; i < nPlayers; i++){
-            Player p = allPlayers.get(nPlayers - i - 1);
-            System.out.printf("%4s %-16s %-16s \n", (i+1 +"."), p, (p.getGamerScore() + " pts"));
-        }
-        System.out.println();
+        printSortedPlayers(players.keySet());
     }
 }

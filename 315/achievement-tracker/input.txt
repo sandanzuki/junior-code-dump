@@ -4,8 +4,12 @@ AddGame 1003 "Dishonored"
 AddGame 1004 "Deadlight"
 AddGame 1005 "League of Legends"
 AddAchievement 1001 901 "Access all areas" 20
-AddAchievement 1001 902 "Pro runner" 50
-AddAchievement 1001 903 "Crystal Weapon" 15
+AddAchievement 1001 902 "Tango down" 15
+AddAchievement 1001 903 "Mine!" 15
+AddAchievement 1001 904 "Packrat" 80
+AddAchievement 1001 905 "Tango down" 20
+AddAchievement 1001 906 "Pro runner" 50
+AddAchievement 1001 907 "Crystal Weapon" 15
 AddAchievement 1002 801 "Prayer of a Maiden" 25
 AddAchievement 1002 802 "Dark Lord" 90
 AddAchievement 1003 701 "Faceless" 20
@@ -42,19 +46,16 @@ Plays 10004 1003 "thenic"
 Plays 10004 1004 "omgnic"
 Plays 10004 1005 "nic"
 Achieve 10001 1001 901
-Achieve 10001 1001 901
-Achieve 10001 1001 901
 Achieve 10001 1001 902
-Achieve 10001 1001 902
-Achieve 10001 1002 801
+Achieve 10001 1001 903
+Achieve 10001 1001 904
+Achieve 10001 1001 905
+Achieve 10001 1001 906
+Achieve 10001 1001 907
 Achieve 10001 1002 801
 Achieve 10001 1002 802
-Achieve 10001 1003 702
-Achieve 10001 1003 702
 Achieve 10001 1003 701
 Achieve 10001 1003 702
-Achieve 10001 1004 601
-Achieve 10001 1004 601
 Achieve 10001 1004 601
 Achieve 10002 1001 901
 Achieve 10002 1002 801
@@ -71,14 +72,11 @@ Achieve 10003 1004 602
 Achieve 10004 1001 901
 Achieve 10004 1002 801
 Achieve 10004 1003 702
-Achieve 10004 1003 702
-Achieve 10004 1003 702
-Achieve 10004 1003 702
-Achieve 10004 1003 702
-Achieve 10004 1003 702
-Achieve 10004 1003 702
-Achieve 10004 1004 601
 Achieve 10004 1004 601
 Achieve 10004 1005 501
 Achieve 10004 1005 502
 SummarizePlayer 10001
+ComparePlayers 10001 10002 1001
+SummarizeGame 1001
+SummarizeAchievement 1001 901
+AchievementRanking
