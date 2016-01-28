@@ -80,3 +80,4 @@ ComparePlayers 10001 10002 1001
 SummarizeGame 1001
 SummarizeAchievement 1001 901
 AchievementRanking
+FriendsWhoPlay 10001 1001

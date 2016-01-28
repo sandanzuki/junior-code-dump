@@ -3,6 +3,7 @@ import java.lang.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//error messages are commented out. uncomment to see them.
 public class Database{
     public final HashMap<Integer,Player> players; //integer is playerID
     public final HashMap<Integer,Game> games; //integer is gameID
@@ -66,14 +67,14 @@ public class Database{
         }
     }
     
-    public ArrayList<Integer> friendsWhoPlay(int playerID, int gameID){
-        ArrayList<Integer> p = new ArrayList<Integer>();
-        if(players.containsKey(playerID) && games.containsKey(gameID)){
-            for(int friend : players.get(playerID).friends){
-                if(games.get(gameID).players.contains(friend)) p.add(friend);
-            }
+    public void printPlayers(Collection<? extends Integer> playerIDs){
+        int counter = 1;
+        for(int p : playerIDs){
+            Player player = players.get(p);
+            System.out.printf("%4s %-16s \n", (counter +"."), player);
+            counter++;
         }
-        return p;
+        System.out.println();
     }
     
     public void printSortedPlayers(Collection<? extends Integer> playerIDs){
@@ -100,7 +101,20 @@ public class Database{
             System.out.printf("%4s %s \n", "-", achievements.get(a));
         }
         System.out.println();
-        
+    }
+    
+    public void friendsWhoPlay(int playerID, int gameID){
+        Player p = players.get(playerID);
+        Game g = games.get(gameID);
+        ArrayList<Integer> friends = new ArrayList<Integer>();
+        if(players.containsKey(playerID) && games.containsKey(gameID)){
+            for(int friend : players.get(playerID).friends){
+                if(games.get(gameID).players.contains(friend)) friends.add(friend);
+            }
+        }
+        System.out.printf("Friends of %s playing %s \n", p, g);
+        System.out.println("--------------------------------------------------------------------------------");
+        printPlayers(friends);
     }
     
     public void comparePlayers(int player1ID, int player2ID, int gameID){
@@ -142,13 +156,7 @@ public class Database{
         System.out.println("Game: " + g);
         System.out.println("--------------------------------------------------------------------------------");
         System.out.println("Players: ");
-        int counter = 1;
-        for(int p : g.players){
-            Player player = players.get(p);
-            System.out.printf("%4s %-16s \n", (counter +"."), player);
-            counter++;
-        }
-        System.out.println();
+        printPlayers(g.players);
         System.out.println("Achievements: ");
         for(int a : g.achievements){
             Achievement achievement = achievements.get(a);
@@ -166,13 +174,7 @@ public class Database{
         int nTotal = g.players.size();
         double percent = (double)nAchieved/nTotal*100;
         System.out.printf("%.2f%% (%d of %d) players have gotten this achievement \n", percent, nAchieved, nTotal);
-        int counter = 1;
-        for(int p : a.players){
-            Player player = players.get(p);
-            System.out.printf("%4s %-16s \n", (counter +"."), player);
-            counter++;
-        }
-        System.out.println();
+        printPlayers(a.players);
     }
     
     public void achievementRank(){
