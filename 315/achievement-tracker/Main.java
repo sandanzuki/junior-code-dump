@@ -9,6 +9,7 @@ public class Main{
         Scanner cin = new Scanner(System.in);
         while(cin.hasNextLine()){
             String input = cin.nextLine();
+            if(input.length() == 0) continue;
             if(input.equals("quit") || input.equals("q")) break;
             matching(input,db);
         }
@@ -16,22 +17,22 @@ public class Main{
     
     // regex patterns to determine if input is valid
     // words surrounded by \\b require exact matching
-    // ( +) requires one or more spaces
+    // ( +) requires one or more spaces / ( *) requires zero or more spaces
     // (\\d+) requires one or more digits
     // \"([^\"]+)\" requires one or more characters that does not contain a double quote, surrounded by double quotes
     private static final ArrayList<Pattern> commandPatterns = new ArrayList<Pattern>(
-        Arrays.asList(Pattern.compile("\\bAddPlayer\\b( +)(\\d+)( +)\"([^\"]+)\""),
-                      Pattern.compile("\\bAddGame\\b( +)(\\d+)( +)\"([^\"]+)\""),
-                      Pattern.compile("\\bAddAchievement\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]+)\"( +)(\\d+)"),
-                      Pattern.compile("\\bPlays\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]+)\""),
-                      Pattern.compile("\\bAddFriends\\b( +)(\\d+)( +)(\\d+)"),
-                      Pattern.compile("\\bAchieve\\b( +)(\\d+)( +)(\\d+)( +)(\\d+)"),
-                      Pattern.compile("\\bFriendsWhoPlay\\b( +)(\\d+)( +)(\\d+)"),
-                      Pattern.compile("\\bComparePlayers\\b( +)(\\d+)( +)(\\d+)( +)(\\d+)"),
-                      Pattern.compile("\\bSummarizePlayer\\b( +)(\\d+)"),
-                      Pattern.compile("\\bSummarizeGame\\b( +)(\\d+)"),
-                      Pattern.compile("\\bSummarizeAchievement\\b( +)(\\d+)( +)(\\d+)"),
-                      Pattern.compile("\\bAchievementRanking\\b")
+        Arrays.asList(Pattern.compile("\\bAddPlayer\\b( +)(\\d+)( +)\"([^\"]+)\"( *)"),
+                      Pattern.compile("\\bAddGame\\b( +)(\\d+)( +)\"([^\"]+)\"( *)"),
+                      Pattern.compile("\\bAddAchievement\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]+)\"( +)(\\d+)( *)"),
+                      Pattern.compile("\\bPlays\\b( +)(\\d+)( +)(\\d+)( +)\"([^\"]+)\"( *)"),
+                      Pattern.compile("\\bAddFriends\\b( +)(\\d+)( +)(\\d+)( *)"),
+                      Pattern.compile("\\bAchieve\\b( +)(\\d+)( +)(\\d+)( +)(\\d+)( *)"),
+                      Pattern.compile("\\bFriendsWhoPlay\\b( +)(\\d+)( +)(\\d+)( *)"),
+                      Pattern.compile("\\bComparePlayers\\b( +)(\\d+)( +)(\\d+)( +)(\\d+)( *)"),
+                      Pattern.compile("\\bSummarizePlayer\\b( +)(\\d+)( *)"),
+                      Pattern.compile("\\bSummarizeGame\\b( +)(\\d+)( *)"),
+                      Pattern.compile("\\bSummarizeAchievement\\b( +)(\\d+)( +)(\\d+)( *)"),
+                      Pattern.compile("\\bAchievementRanking\\b( *)")
         )
     );
         
