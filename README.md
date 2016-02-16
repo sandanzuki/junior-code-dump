@@ -20,7 +20,9 @@ instruction set architecture in logisim.
 
 ## 313 - 
 
-nothing yet.
+#### machine problem 1.
+
+a high performance linked list.
 
 ## 314 - 
 
