@@ -1,5 +1,4 @@
 # Java
-
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -15,7 +14,6 @@ hs_err_pid*
 
 
 # C++
-
 # Compiled Object files
 *.slo
 *.lo
@@ -45,8 +43,8 @@ hs_err_pid*
 *.out
 *.app
 
-# Haskell
 
+# Haskell
 dist
 cabal-dev
 *.o
@@ -63,3 +61,13 @@ cabal.sandbox.config
 *.aux
 *.hp
 .stack-work/
+
+
+# HTML
+*.html 
+*.css 
+*.js 
+
+
+# not committing text files
+.txt

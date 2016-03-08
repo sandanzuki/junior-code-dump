@@ -1,0 +1,54 @@
+*Songs
+Song Name\VARCHAR\false\Genre\VARCHAR\false\Length\VARCHAR\false\&
+-22\Pop\3:52\
+-Red\Pop\3:43\
+-Around The World\Rock\3:59\
+-Scar Tissue\Rock\3:36\
+-Otis\Rap\4:30\
+-In The End\Alternative\3:00\
+-Papercut\Alternative\3:05\
+-A Storm is Coming\Soundtrack\0:37\
+-On Thin Ice\Soundtrack\2:55\
+-Gotham's Reckoning\Soundtrack\4:08\
+-Radical Notion\Soundtrack\3:31\
+-Hello\Ballard\4:55\
+*Is On
+Song Name\VARCHAR\false\Album Name\VARCHAR\false\&
+-22\Red\
+-Red\Red\
+-Around The World\Californication\
+-Scar Tissue\Californication\
+-Otis\Watch the Throne\
+-In The End\Hybrid Theory\
+-Papercut\Hybrid Theory\
+-A Storm is Coming\The Dark Knight Rises\
+-On Thin Ice\The Dark Knight Rises\
+-Gotham's Reckoning\The Dark Knight Rises\
+-Radical Notion\Inception\
+-Hello\25\
+*Artists
+Artist Name\VARCHAR\false\Debut Year\INTEGER\false\&
+-Taylor Swift\2006\
+-Red Hot Chili Peppers\1983\
+-Jay Z\1996\
+-Linkin Park\1996\
+-Hans Zimmer\1989\
+-Adele\2006\
+*Albums
+Album Name\VARCHAR\false\Year Released\INTEGER\false\&
+-Red\2012\
+-Californication\1999\
+-Watch the Throne\2011\
+-Hybrid Theory\2000\
+-The Dark Knight Rises\2012\
+-Inception\2010\
+-25\2015\
+*Created
+Artist Name\VARCHAR\false\Album Name\VARCHAR\false\&
+-Taylor Swift\Red\
+-Red Hot Chili Peppers\Californication\
+-Jay Z\Watch the Throne\
+-Linkin Park\Hybrid Theory\
+-Hans Zimmer\The Dark Knight Rises\
+-Hans Zimmer\Inception\
+-Adele\25\
